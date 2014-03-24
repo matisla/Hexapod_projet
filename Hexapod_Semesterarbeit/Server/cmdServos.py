@@ -3,7 +3,6 @@ Created on 19 mars 2014
 
 @author: Matthieu
 '''
-import GUI
 
 class cmdServos(object):
     '''
