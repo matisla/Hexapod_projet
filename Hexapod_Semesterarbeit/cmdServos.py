@@ -3,6 +3,7 @@ Created on 19 mars 2014
 
 @author: Matthieu
 '''
+import GUI
 
 class cmdServos(object):
     '''
@@ -12,8 +13,20 @@ class cmdServos(object):
     '''
 
 
-    def __init__(self, params):
+    def __init__(self, nom, adresse):
         '''
         Constructor
+        adresse: adresse du controlleur en I2C
         '''
+        self.addr = adresse
+        self.name = nom
+        self.getaddr
         
+    def getaddr(self):
+        print("Caracteristique du Controlleur:")
+        print("nom:     %s"   %(self.name))
+        print("adresse: 0x%X" %(self.addr))
+        
+if __name__ == '__main__':
+    test = cmdServos("gauche", 0x10)
+    test.getaddr()

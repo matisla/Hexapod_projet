@@ -12,9 +12,11 @@ Option:
 '''
 
 from tkinter import *
+import cmdServos
 
 
 fenetre = Tk()
+fenetre.title("Commande")
 
 def cmdsend():
     sendedbox = Frame(fenetre, width=100, height=10)
@@ -34,38 +36,42 @@ def cmdbox():
     boutton_send = Button(cmdbox, text="send", width=10)
     boutton_send.pack(side="right")
 
-def controleur():
+def fenetreeur():
     
-    controlbox = Frame(fenetre)
-    controlbox.pack(side="top", pady=10)
+    fenetrebox = Frame(fenetre)
+    fenetrebox.pack(side="top", pady=10)
     
-    boutton_fw = Button(controlbox, text="fw", width=10)
+    boutton_fw = Button(fenetrebox, text="fw", width=10)
     boutton_fw.pack(side="top")
     
-    boutton_bw = Button(controlbox, text="bw", width=10)
+    boutton_bw = Button(fenetrebox, text="bw", width=10)
     boutton_bw.pack(side="bottom")
     
-    boutton_left = Button(controlbox, text="left", width=10)
+    boutton_left = Button(fenetrebox, text="left", width=10)
     boutton_left.pack(side="left")
 
-    boutton_right = Button(controlbox, text="right", width=10)
+    boutton_right = Button(fenetrebox, text="right", width=10)
     boutton_right.pack(side="right")    
     
     
-    controlboxR = Frame(fenetre)
-    controlboxR.pack(side="top", pady=10)
+    fenetreboxR = Frame(fenetre)
+    fenetreboxR.pack(side="top", pady=10)
     
-    boutton_leftR = Button(controlboxR, text="Rot. left", width=10)
+    boutton_leftR = Button(fenetreboxR, text="Rot. left", width=10)
     boutton_leftR.pack(side="left")
 
-    boutton_rightR = Button(controlboxR, text="Rot. right", width=10)
+    boutton_rightR = Button(fenetreboxR, text="Rot. right", width=10)
     boutton_rightR.pack(side="right")    
     
 cmdsend()
 cmdbox()
-controleur()
+fenetreeur()
 fenetre.mainloop()
 
-
+"""
 if __name__ == '__main__':
-    pass
+    cmdsend()
+    cmdbox()
+    fenetreeur()
+    fenetre.mainloop()
+"""
