@@ -26,6 +26,7 @@ class User_Interface(Frame):
         self.input()
         
         self.fenetre.mainloop()
+        
 
 
     def cmdSend(self):
@@ -33,6 +34,8 @@ class User_Interface(Frame):
         """
         Commande: envoie d'une commande mannuelle
         """
+        
+        #Emission.sendMsg()
         
         self.sended.insert(0,self.varSend.get()) 
         self.varSend.initialize("")
@@ -86,6 +89,14 @@ class User_Interface(Frame):
         """
         self.sended.insert(0,"Rotation Right")
             
+    def log(self, message):
+        """
+        ajouter un message au log
+        """
+        
+        self.sended.insert(0, message)
+    
+    
     
     """
     Initialisation
