@@ -5,18 +5,15 @@ Created on 24 mars 2014
 '''
 
 import socket, sys, threading
-from GUI import *
 
-class Reception(threading.Thread):
+class Emission():
     
     """
-    Thread Client qui permet de receptions les information qui vienne de l'hexapod
+    Thread Client qui permet d'envoyer les commandes vers l'hexapod
     
     """
     
     def __init__(self, HOST='192.168.1.1', PORT=50000):
-
-        threading.Thread.__init__(self)
         
         self.ip   = HOST
         self.port = PORT
@@ -24,28 +21,15 @@ class Reception(threading.Thread):
         self.connexion = self.connexion()
         
     
-    def run(self):
-
-        while 1:
-            # cycle normal
-            
-            msg_recu = self.connexion.recv(1024)
-            self.logger(msg_recu)
-            
-            
-            if msg_recu.upper() == "END":
-                self.connexion.close()
-                break
-        
-        # deconnexion
-        self.deconnexion()
-              
-    def logger(self, message):
+    def sendMsg(self, message):
         """
-        reception d'un message et l'envoyer dans le log
+        envoie le message
         """
+        self.connexion.send(message)
         
-        print(message)
+        if message.upper() == "END":
+            self.deconnexion()
+        
         
     def connexion(self):
          
@@ -67,5 +51,4 @@ class Reception(threading.Thread):
     
 
 if __name__ == '__main__':
-    myThread = Reception()
-    myThread.start()
+    mySender = Emission()
