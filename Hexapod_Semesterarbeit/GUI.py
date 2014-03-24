@@ -2,10 +2,16 @@
 Created on 19 mars 2014
 
 @author: Matthieu
+Version: 1.00
+
+A faire:
+- mettre en place les commandes pour chaques boutons.
+
+Option:
+- mettre en place le cadre pour la video.
 '''
 
 from tkinter import *
-import os
 
 
 fenetre = Tk()
