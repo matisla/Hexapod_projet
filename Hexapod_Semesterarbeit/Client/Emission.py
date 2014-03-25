@@ -4,7 +4,7 @@ Created on 24 mars 2014
 @author: Matthieu
 '''
 
-import socket, sys, threading
+import socket, sys
 
 class Emission():
     
