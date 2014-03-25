@@ -16,11 +16,13 @@ class Communication():
         '''
         Constructor
         '''
+        
         self.ip   = HOST
         self.port = PORT
         
         self.mySocket  = self.connexion()
         self.connexion = self.ecoute()
+        self.start()
         
     def connexion(self):
         
@@ -41,7 +43,7 @@ class Communication():
         self.connexion.send("END")
         self.connexion.close()
          
-         
+        
     def ecoute(self):
         
         print("attente d'une requete")
