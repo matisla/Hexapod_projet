@@ -17,10 +17,7 @@ class Server(threading.Thread):
         self.ip   = HOST
         self.port = PORT
         
-        self.emetteur  = {}
-        self.recepteur = {}
-        
-        self.numero = 0
+        self.Client  = {}
         
         self.socket = self.connexion()
        
@@ -31,24 +28,20 @@ class Server(threading.Thread):
                   
             connexion, adresse = self.socket.accept()
             
-            self.numero += 1
-            
-            th = Communication(connexion)
+            th = Communication(self, connexion)
             th.start()
             
-            message = ""
+            message = connexion.recv(1024)
             
-            while message == "":
+            while message.upper() != "BONJOUR":
                 message = connexion.recv(1024)
             
-            if message.upper() == "EMETTEUR":
-                self.recepteur["%d" %(self.numero)] = connexion
-            if message.upper() == "RECEPTEUR":
-                self.emetteur["%d" %(self.numero)]  = connexion
+            nom = "Client%s" %(len(self.Client))
+            self.Client[nom] = connexion
         
-            print "Client %s connecte, adresse IP %s, port %s." %("%d" %(self.numero), adresse[0], adresse[1])
+            print "%s connecte, adresse IP %s, port %s." %(nom, adresse[0], adresse[1])
         
-            connexion.send("Welcome")
+            connexion.send("Bonjour")
             
     def connexion(self):
         
@@ -69,13 +62,10 @@ class Server(threading.Thread):
         return mySocket
         
         
-    def getEmetteur(self):
-        liste = list(self.emetteur)
+    def getClient(self):
+        liste = list(self.Client)
         return liste
-    
-    def getRecepteur(self):
-        liste = list(self.recepteur)
-        return liste
+
     
 if __name__ == '__main__':
     pass

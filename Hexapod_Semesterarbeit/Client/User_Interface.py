@@ -13,8 +13,6 @@ Option:
 
 from tkinter import *
 
-import cmdServos
-
 class User_Interface(Frame):
     
     def __init__(self):
