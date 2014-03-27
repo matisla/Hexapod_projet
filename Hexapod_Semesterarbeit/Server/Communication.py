@@ -5,7 +5,9 @@ Created on 25 mars 2014
 '''
 
 import socket, sys, threading
+
 import cmdServos
+
 
 class Communication(threading.Thread):
     '''

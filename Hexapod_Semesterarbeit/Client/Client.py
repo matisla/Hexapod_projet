@@ -5,8 +5,10 @@ Created on 26 mars 2014
 '''
 
 import socket, sys, threading
+
 from Emission import *
 from Reception import *
+
 
 class Client():
 
@@ -25,7 +27,7 @@ class Client():
         connexion = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         
         # 2) envoi d'une requete de connexion au serveur:
-        print("connexion en cours")
+        self.logger("connexion en cours")
         
         try:
             connexion.connect( (self.ip, self.port) )
@@ -34,8 +36,6 @@ class Client():
         except socket.error:
             print ("echec de la connexion")
             sys.exit()
-        
-        print("")
         
         self.thR = Reception(connexion, self.ui)
         self.thE = Emission(connexion, self.ui)
