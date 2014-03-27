@@ -26,6 +26,35 @@ class cmdServos(object):
         print("nom:     %s"   %(self.name))
         print("adresse: 0x%X" %(self.addr))
         
+        
+    def forward(self):
+        print("avancer")
+    
+    def backward(self):
+        print("reculer")
+        
+    def left(self):
+        print("aller a gauche")
+        
+    def right(self):
+        print("aller a droite")
+        
+    def Rleft(self):
+        print("tourner a gauche")
+        
+    def Rright(self):
+        print("tourner a droite")    
+        
+    def servos(self, numero, valeur):
+        """
+        controle manuelle du servos XYZ
+        
+        X: gauche (0), droite (1)
+        Y: nummero de la patte (1 etant l'avant)
+        Z: nummero du servo (1 etant l'interieur)
+        """
+            
+                    
 if __name__ == '__main__':
     test = cmdServos("gauche", 0x10)
     test.getaddr()

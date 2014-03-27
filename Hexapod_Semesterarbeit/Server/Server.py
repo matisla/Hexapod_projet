@@ -5,7 +5,7 @@ Created on 26 mars 2014
 '''
 
 import socket, sys, threading
-import Communication
+from Communication import *
 
 class Server(threading.Thread):
 
@@ -20,13 +20,13 @@ class Server(threading.Thread):
         self.Client  = {}
         
         self.connexion = self.connexion()
-       
+        self.start()
        
     def run(self):
          
         while 1:
                   
-            connexion, adresse = self.socket.accept()
+            connexion, adresse = self.connexion.accept()
             
             client = Communication(connexion)
             client.start()
@@ -34,7 +34,7 @@ class Server(threading.Thread):
             nom = "Client%s" %(len(self.Client))
             self.Client[nom] = connexion
                         
-        
+            print("")
             print ("%s connecte, adresse IP %s, port %s." %(nom, adresse[0], adresse[1]))
         
             
@@ -42,15 +42,17 @@ class Server(threading.Thread):
         
         mySocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-        print("connexion avec le socket cote Server")
+        print("lancement du Server")
         
         try:
             mySocket.bind((self.ip, self.port))
-            print ("Connexion etablis avec succes")
+            print ("Serveur en route")
         
         except socket.error:
-            print ("La liaison du socket a l'adresse choisie a echoue.")
+            print ("echec lors du lancement du Server")
             sys.exit()
+        
+        print("")
         
         mySocket.listen(5)
                 
@@ -60,7 +62,9 @@ class Server(threading.Thread):
     def getClient(self):
         liste = list(self.Client)
         return liste
-
+    
+    def shutdown(self):
+        self.connexion.close()
     
 if __name__ == '__main__':
     myServer = Server("192.168.0.32", 50000)

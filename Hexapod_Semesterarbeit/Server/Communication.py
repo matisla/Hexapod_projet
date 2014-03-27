@@ -25,6 +25,8 @@ class Communication(threading.Thread):
     
     def run(self):
         
+        print("pret a recevoir les commandes !")
+        
         while 1:    
             """
             lecteur et traitement du message
@@ -33,23 +35,23 @@ class Communication(threading.Thread):
             message = self.connexion.recv(1024)
             message = message.decode()
             
-            if message.upper() == "END":
-                self.deconnexion() 
+            if message.upper() == "Hello":
+                print("BONJOURS A TOUS")
+            
+            elif message.upper() == "END":
+                self.connexion.send(message.encode())
+                break
+            
+            else:
+                print("recepteur Server message: "+ message)
+            
+                """
+                renvoie de la reponse
+                """
                 
-            print("message recu Communication: " + message)
-            
-            """
-            renvoie de la reponse
-            """
-            
-            reponse = "message recu"
-            
-            self.connexion.send(reponse)
+                reponse = "message recu"
+                self.connexion.send(reponse.encode())
                 
-        self.deconnexion()
-        
-    def deconnexion(self):
-        self.connexion.close()
         
 if __name__ == '__main__':
     print("lancer le serveur SVP")

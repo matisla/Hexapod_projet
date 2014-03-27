@@ -18,32 +18,37 @@ class Emission(threading.Thread):
         threading.Thread.__init__(self)
         
         self.connexion = conn
+        self.ui = None
         
-        self.listMsg = list("hello")
+        self.listMsg = list("")
+        
         
     def run(self):
         end = False
         
         while end == False:
             for message in self.listMsg:
+                
                 if message.upper() == "END":
                     end = True
-                    break
-            
+                    self.logger("deconnexion en cours ...")
+                    self.connexion.send(message.encode())
+                    self.listMsg.remove(message)
+                    
+
                 self.connexion.send(message.encode())
+                self.listMsg.remove(message)
+                    
+    
+    def logger(self, message):
+        if self.ui is not None:
+            self.ui.log(message)
         
-        self.deconnexion()
-        
-        
+        else:
+            print(message)
+    
     def sendMsg(self, message):
-        """
-        envoie le message
-        """
         self.listMsg.append(message)
-        
-    def deconnexion(self):
-        print("deconnexion en cours ...")
-        self.connexion.close()
     
 
 if __name__ == '__main__':

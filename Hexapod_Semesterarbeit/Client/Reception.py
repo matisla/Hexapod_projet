@@ -19,7 +19,7 @@ class Reception(threading.Thread):
         
         self.connexion = conn
         
-        self.ui = ""
+        self.ui = None
     
     def run(self):
         
@@ -27,32 +27,26 @@ class Reception(threading.Thread):
             # cycle normal
             
             message = self.connexion.recv(1024)
-            self.logger(message)
-            
+            message = message.decode()
             
             if message.upper() == "END":
+                self.logger("connexion termine")
                 break
-        
-        # deconnexion
-        self.deconnexion()
-              
-    def logger(self, message):
-        """
-        reception d'un message et l'envoyer dans le log
-        """
-        if self.ui == object:
-            self.ui.log(message)
-        
-        print(message)
-        
-    def setUi(self, GUI):
-        self.ui = GUI
-        
-    def deconnexion(self):
-        
-        print("deconnexion en cours ...")
+            
+            else:
+                self.logger(message)
+            
         self.connexion.close()
     
+    
+    
+    def logger(self, message):
+        if self.ui is not None:
+            self.ui.log(message)
+        
+        else:
+            print(message)
+        
 
 if __name__ == '__main__':
     print("lancer le Main")
