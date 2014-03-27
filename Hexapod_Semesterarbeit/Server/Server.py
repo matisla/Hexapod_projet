@@ -10,7 +10,7 @@ import Communication
 class Server(threading.Thread):
 
 
-    def __init__(self, HOST="168.192.1.1", PORT=50000):
+    def __init__(self, HOST="168.192.0.32", PORT=50000):
         
         threading.Thread.__init__(self)
         
@@ -19,7 +19,7 @@ class Server(threading.Thread):
         
         self.Client  = {}
         
-        self.socket = self.connexion()
+        self.connexion = self.connexion()
        
        
     def run(self):
@@ -28,20 +28,15 @@ class Server(threading.Thread):
                   
             connexion, adresse = self.socket.accept()
             
-            th = Communication(self, connexion)
-            th.start()
-            
-            message = connexion.recv(1024)
-            
-            while message.upper() != "BONJOUR":
-                message = connexion.recv(1024)
+            client = Communication(connexion)
+            client.start()
             
             nom = "Client%s" %(len(self.Client))
             self.Client[nom] = connexion
+                        
         
-            print "%s connecte, adresse IP %s, port %s." %(nom, adresse[0], adresse[1])
+            print ("%s connecte, adresse IP %s, port %s." %(nom, adresse[0], adresse[1]))
         
-            connexion.send("Bonjour")
             
     def connexion(self):
         
@@ -51,10 +46,10 @@ class Server(threading.Thread):
         
         try:
             mySocket.bind((self.ip, self.port))
-            print "Connexion etablis avec succes"
+            print ("Connexion etablis avec succes")
         
         except socket.error:
-            print "La liaison du socket a l'adresse choisie a echoue."
+            print ("La liaison du socket a l'adresse choisie a echoue.")
             sys.exit()
         
         mySocket.listen(5)
@@ -68,4 +63,4 @@ class Server(threading.Thread):
 
     
 if __name__ == '__main__':
-    pass
+    myServer = Server("192.168.0.32", 50000)

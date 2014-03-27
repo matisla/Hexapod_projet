@@ -13,7 +13,7 @@ class Communication(threading.Thread):
     '''
 
 
-    def __init__(self, serv, conn):
+    def __init__(self, conn):
         '''
         Constructor
         '''
@@ -21,7 +21,7 @@ class Communication(threading.Thread):
         threading.Thread.__init__(self)
         
         self.connexion = conn
-        self.serveur   = serv
+    
     
     def run(self):
         
@@ -34,17 +34,21 @@ class Communication(threading.Thread):
             
             if message.upper() == "END":
                 self.deconnexion() 
+                
+            print("message recu Communication: " + message)
             
             """
             renvoie de la reponse
             """
             
-            reponse = ""
+            reponse = "message recu"
             
             self.connexion.send(reponse)
                 
-            
+        self.deconnexion()
+        
     def deconnexion(self):
-        print("connexion termine")
-        self.connexion.send("END")
         self.connexion.close()
+        
+if __name__ == '__main__':
+    print("lancer le serveur SVP")

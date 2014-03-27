@@ -23,6 +23,8 @@ class User_Interface(Frame):
         self.output()
         self.input()
         
+        self.transmission = object
+        
         self.fenetre.mainloop()
         
 
@@ -34,11 +36,14 @@ class User_Interface(Frame):
         """
         
         #Emission.sendMsg()
-        
-        self.sended.insert(0,self.varSend.get()) 
-        self.varSend.initialize("")
-
-    
+        try:
+            self.sended.insert(0,self.varSend.get()) 
+            self.varSend.initialize("")
+            self.transmission.sendMsg(self.varSend.get())
+            
+        except:
+            self.sended.insert(0,"commande echoue") 
+            
     def fwcmd(self):
         
         """
@@ -92,8 +97,9 @@ class User_Interface(Frame):
         ajouter un message au log
         """
         
+        print(message)
         self.sended.insert(0, message)
-    
+        
     
     
     """
@@ -180,7 +186,9 @@ class User_Interface(Frame):
         
         self.sended = Listbox(self.sendedbox, yscrollcommand=self.scrollbar.set, bg="white", width=40)
         self.sended.pack(side="top")    
-    
+        
+    def setTransmission(self, trans):
+        self.transmission = trans
     
 if __name__ == '__main__':
     test = User_Interface()
