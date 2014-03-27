@@ -5,8 +5,8 @@ Created on 26 mars 2014
 '''
 
 import socket, sys, threading
-import Emission
-import Reception
+from Emission import *
+from Reception import *
 
 class Client():
 
@@ -24,43 +24,24 @@ class Client():
 
         connexion = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         
-        # 2) envoi d'une requête de connexion au serveur:
+        # 2) envoi d'une requete de connexion au serveur:
         
         try:
             connexion.connect( (self.ip, self.port) )
-            print "Connexion etablie avec le serveur"
+            print ("Connexion etablie avec le serveur")
         
         except socket.error:
-            print "La connexion a échoué."
+            print ("La connexion a echoue avec le serveur.")
             sys.exit()
         
-        thR = Reception(connexion)
-        thE = Emission(connexion)
+        self.thR = Reception(connexion)
+        self.thE = Emission(connexion)
         
-        thR.start()
-        thE.start()
-         
-         
-         
-         
-        conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        print ("tentative de connexion au serveur")
-        
-        try:
-            conn.connect( (self.ip, self.port) )
-            print ("Connexion etablis avec succes")
-        
-        except socket.error:
-            print ("La liaison du socket a l'adresse choisie a echoue.")
-            sys.exit()
-            
-        return conn
-        
-        
-    def getClient(self):
-        liste = list(self.Client)
-        return liste
+        self.thR.start()
+        self.thE.start()
 
+    def getClient(self):
+        return (self.thE, self.thR)
     
 if __name__ == '__main__':
-    myServer = Server("192.168.0.32", 50000)
+    myClient = Client()

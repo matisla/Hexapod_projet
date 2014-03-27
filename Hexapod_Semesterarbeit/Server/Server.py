@@ -42,7 +42,7 @@ class Server(threading.Thread):
         
         mySocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-        print("connexion avec le socket")
+        print("connexion avec le socket cote Server")
         
         try:
             mySocket.bind((self.ip, self.port))

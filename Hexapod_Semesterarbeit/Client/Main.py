@@ -4,8 +4,7 @@ Created on 24 mars 2014
 @author: Matthieu
 '''
 from User_Interface import *
-import Emission
-import Reception
+import Client
 
 """
 lancer l'interface graphique
@@ -16,8 +15,4 @@ lancer l'interface graphique
 """
 lancer la connexion avec l'hexapod
 """
-thE = Emission()
-thR = Reception()
-
-thE.start()
-thR.start()
+client = Client()

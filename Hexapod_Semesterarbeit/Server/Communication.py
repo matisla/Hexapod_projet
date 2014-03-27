@@ -31,6 +31,7 @@ class Communication(threading.Thread):
             """
             
             message = self.connexion.recv(1024)
+            message = message.decode()
             
             if message.upper() == "END":
                 self.deconnexion() 
