@@ -15,6 +15,7 @@ class Server(threading.Thread):
     def __init__(self, HOST="localhost", PORT=50000, Debug=True):
         
         self.debug = Debug
+        self.actif = True
         
         threading.Thread.__init__(self)
         
@@ -33,7 +34,7 @@ class Server(threading.Thread):
        
     def run(self):
          
-        while 1:
+        while self.actif is True:
                   
             connexion, adresse = self.conn.accept()
             
@@ -68,8 +69,8 @@ class Server(threading.Thread):
         except socket.error as e:
 
             if self.debug is True:
-                print("[Server]: Server        >> Erreur de connexion")
-            print(str(e))
+                print("[Server]: Server        >> [ERROR] connexion impossible")
+            print("                           " + str(e))
             
             return False
         
@@ -80,10 +81,10 @@ class Server(threading.Thread):
     
     
     def shutdown(self):
-        self.connexion.close()
-    
         if self.debug is True:
             print("[Server]: Server        >> Shutdown du Server")
+            
+        self.actif = False
             
 if __name__ == '__main__':
     myServer = Server()

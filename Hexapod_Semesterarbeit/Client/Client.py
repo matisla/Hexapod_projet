@@ -25,13 +25,13 @@ class Client():
         connexion = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         
         if self.debug is True:
-            print("[Client] Client:        >> connexion au Server en cours")
+            print("[Client]: Client        >> connexion au Server en cours")
         
         try:
             connexion.connect( (self.ip, self.port) )
             
             if self.debug is True:
-                print("[Client] Client:        >> connexion au Server reussi")
+                print("[Client]: Client        >> connexion au Server reussi")
             
             self.thR = Reception.Reception(connexion, self.ui, Debug=self.debug)
             self.thE = Emission.Emission(connexion, self.ui, Debug=self.debug)
@@ -44,8 +44,8 @@ class Client():
         except socket.error as e:
             
             if self.debug is True:
-                print("[Client] Client:        >> echec de la connexion au Server: ")
-            self.logger(str(e))
+                print("[Client]: Client        >> [ERROR] connexion impossible")
+            self.logger("                           " + str(e))
             
             return False
         
@@ -54,7 +54,7 @@ class Client():
         self.thE.sendMsg("end")
         
         if self.debug is True:
-            print("[Client]: Client:        >> fin de la communication")
+            print("[Client]: Client        >> fin de la communication")
         
     
     def sendMsg(self, message):
@@ -73,7 +73,7 @@ class Client():
         
         else:
             if self.debug is True:
-                print("[Client] Client:        >> Attention pas de log attribue")
+                print("[Client]: Client        >> [Attention] pas de log attribue")
                 
             print(message)
     

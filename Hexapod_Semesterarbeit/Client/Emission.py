@@ -31,6 +31,11 @@ class Emission(threading.Thread):
     def run(self):
         end = False
         
+        if self.debug is True:
+            print("[Client]: Emission      >> Debut de la communication")
+        
+        self.connexion.send("BEGIN".encode())
+        
         while end == False:
             for message in self.listMsg:
                 
@@ -54,7 +59,7 @@ class Emission(threading.Thread):
         
         else:
             if self.debug is True:
-                print("[Client]: Emission      >> Attention pas de log attribue")
+                print("[Client]: Emission      >> [Attention] pas de log attribue")
                 
             print(message)
     

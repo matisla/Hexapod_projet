@@ -17,7 +17,8 @@ class Reception(threading.Thread):
     def __init__(self, conn,  gui=None, Debug=True):
 
         self.debug = Debug
-
+        self.message = []
+        
         threading.Thread.__init__(self)                
         self.setName("Reception")
         
@@ -33,11 +34,19 @@ class Reception(threading.Thread):
             message = self.connexion.recv(1024)
             message = message.decode()
             
+            if self.debug is True:
+                print("[Client]: Reception     >> message recu: " + message)
+                    
             if message.upper() == "END":
                 if self.debug is True:
                     print("[Client]: Reception     >> fin de la communication")    
                 break
             
+            elif message.upper() == "BEGIN":
+                if self.debug is True:
+                    print("[Client]: Reception     >> Debut de la communication")    
+                self.logger("Debut de la communication avec le Server")
+                
             else:
                 self.logger(message)
         
@@ -46,18 +55,27 @@ class Reception(threading.Thread):
     
     
     
-    def logger(self, message):
-        if self.ui is not None:
-            self.ui.log(message)
+    def logger(self, message=""):
         
+        if message != "":
+            self.message.append(message)
+        
+        if self.ui is not None:
+            for msg in self.message:
+                self.ui.log(msg)
+                self.message.remove(msg)
+            
         else:
             if self.debug is True:
-                print("[Client]: Reception     >> Attention pas de log attribue")
+                print("[Client]: Reception     >> [Attention] pas de log attribue")
             
-            print(message)
+                print("[Client]: Reception     >> message en attente: ")
+                for msg in self.message:
+                    print("                           " + msg)
             
     def setUi(self, gui):
         self.ui = gui
+        self.logger()
         
         if self.debug is True:
             print("[Client]: Reception     >> Thread Reception - Interface Graphique PRET")

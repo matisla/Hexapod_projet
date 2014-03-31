@@ -31,10 +31,23 @@ class Communication(threading.Thread):
         
         if self.debug is True:
             print("[Server]: Communication >> pret a recevoir les commandes")
+        
+        while 1:
+            message = self.connexion.recv(1024)
+            message = message.decode()
+            message = message.upper()
             
+            if message == "BEGIN":
+                self.connexion.send(message.encode())
+                    
+                if self.debug is True:
+                    print("[Server]: Communication >> Debut de la communication")
+                    
+                break   
+        
         while 1:    
             """
-            lecteur et traitement du message
+            lecteur des commandes
             """
             
             message = self.connexion.recv(1024)
@@ -46,6 +59,10 @@ class Communication(threading.Thread):
             if self.debug is True:
                 print("[Server]: Communication >> message recu: " + message)
             
+            """
+            traitement des commandes
+            """
+            
             if message == "END":
                 self.connexion.send(message.encode())
                 
@@ -53,6 +70,7 @@ class Communication(threading.Thread):
                     print("[Server]: Communication >> fin de la communication")
                 break
             
+                    
             elif message == "FW":
                 reponse = "en Avant !"
             
@@ -73,7 +91,7 @@ class Communication(threading.Thread):
                 
             else:
                 if self.debug is True:
-                    print("[Server]: Communication >> Attention commande inconnue")
+                    print("[Server]: Communication >> [ERROR] commande inconnue")
                 
                 reponse = ("[ERROR]: commande inconnu !")
             
@@ -82,6 +100,9 @@ class Communication(threading.Thread):
             renvoie de la reponse
             """
             
+            if self.debug is True:
+                print("[Server]: Communication >> message rendu: " + reponse)
+                
             self.connexion.send(reponse.encode())
                 
         
