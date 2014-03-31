@@ -13,11 +13,10 @@ Option:
 
 from tkinter import *
 
-from Receiver import *
-from Sender import *
+from . import Sender, Receiver
 
 
-class User_Interface(Frame):
+class GUI(Frame):
     
     def __init__(self):
         
@@ -31,4 +30,4 @@ class User_Interface(Frame):
             
     
 if __name__ == '__main__':
-    test = User_Interface()
+    test = GUI()
