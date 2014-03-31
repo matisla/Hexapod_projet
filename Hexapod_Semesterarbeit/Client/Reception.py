@@ -47,7 +47,9 @@ class Reception(threading.Thread):
         
         else:
             print(message)
-        
+            
+    def setUi(self, gui):
+        self.ui = gui
 
 if __name__ == '__main__':
     print("lancer le Main")

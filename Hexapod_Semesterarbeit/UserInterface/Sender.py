@@ -83,7 +83,10 @@ class Sender(Frame):
     def cmdSend(self):
         self.cmd(self.varSend.get()) 
         self.varSend.initialize("")
-
+        
+    def setUi(self, gui):
+        self.ui = gui
+        
 if __name__ == "__main__" :
     
     fenetre = Tk()

@@ -32,7 +32,7 @@ class Receiver(Frame):
         self.sendedbox.pack(side="top", fill="both")
         
         self.scrollbar = Scrollbar(self.sendedbox)
-        self.scrollbar.pack(side="right", fill=Y )
+        self.scrollbar.pack(side="right", fill="y" )
 
         self.sended = Listbox(self.sendedbox, yscrollcommand=self.scrollbar.set, bg="white", width=40)
         self.sended.pack(side="top")   
@@ -41,10 +41,13 @@ class Receiver(Frame):
     def log(self, message):
         self.sended.insert(0, message)
         
+    def setUi(self, gui):
+        self.ui = gui
+    
+        
 if __name__ == "__main__" :
     fenetre = Tk()
     fenetre.title("Commande")
     
     myReceiver = Receiver(fenetre)
     myReceiver.mainloop()
-

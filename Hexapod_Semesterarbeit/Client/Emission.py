@@ -32,9 +32,7 @@ class Emission(threading.Thread):
                 
                 if message.upper() == "END":
                     end = True
-                    self.logger("deconnexion en cours ...")
-                    self.connexion.send(message.encode())
-                    self.listMsg.remove(message)
+                    self.logger("deconnexion en cours ...")                   
                     
 
                 self.connexion.send(message.encode())
@@ -51,6 +49,8 @@ class Emission(threading.Thread):
     def sendMsg(self, message):
         self.listMsg.append(message)
     
+    def setUi(self, gui):
+        self.ui = gui
 
 if __name__ == '__main__':
     print("lancer le Main")

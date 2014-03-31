@@ -53,6 +53,8 @@ class Client():
     
     def setUi(self, GUI):
         self.ui = GUI
+        self.thE.setUi(GUI)
+        self.thR.setUi(GUI)
     
     def logger(self, message):
         if self.ui is not None:
