@@ -37,8 +37,8 @@ class Client():
                 
             self.logger("Connexion reussi")
             
-            self.thR = Reception.Reception(connexion, self.ui)
-            self.thE = Emission.Emission(connexion, self.ui)
+            self.thR = Reception.Reception(connexion, self.ui, Debug=self.debug)
+            self.thE = Emission.Emission(connexion, self.ui, Debug=self.debug)
         
             self.thR.start()
             self.thE.start()

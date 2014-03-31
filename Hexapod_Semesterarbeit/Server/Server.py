@@ -39,7 +39,7 @@ class Server(threading.Thread):
             
             nom = "Client%s" %(len(self.Client))
             
-            client = Communication(connexion)
+            client = Communication(connexion, Debug=self.debug)
             client.setName(nom)
             
             self.Client[nom] = connexion
