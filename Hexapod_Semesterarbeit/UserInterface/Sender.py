@@ -6,21 +6,21 @@ Created on 27 mars 2014
 from tkinter import *
 
 
-class Sender(Frame):
+class Sender():
     '''
     gere la partie envoie de commande de la GUI
     '''
 
 
-    def __init__(self, win):
-        '''
-        Constructor
-        '''
+    def __init__(self, win, Debug=True):
+        
+        self.debug = Debug
+        
         self.fenetre  = win
         self.emetteur = None
         
         self.box = Frame(self.fenetre)
-        self.box.pack(side="left", padx=10, pady=10)
+        self.box.pack(side="left", expand=True, fill="both", padx=10, pady=10)
         
         self.initControler()
         self.initSender()
@@ -76,7 +76,11 @@ class Sender(Frame):
 
     def cmd(self, cmd):
         if self.emetteur is not None:
+            if self.debug is True:
+                print("[GUI]   : Sender        >> commande envoye: " + cmd)
+            
             self.emetteur.sendMsg(cmd)
+                
         else:
             print(cmd)
         
@@ -84,8 +88,11 @@ class Sender(Frame):
         self.cmd(self.varSend.get()) 
         self.varSend.initialize("")
         
-    def setUi(self, gui):
-        self.ui = gui
+    def setConnexion(self, conn):
+        self.emetteur = conn
+        
+        if self.debug is True:
+            print("[GUI]   : Sender        >> connexion UI Emission - Thread Emetteur PRET")
         
 if __name__ == "__main__" :
     

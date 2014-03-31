@@ -4,7 +4,7 @@ Created on 26 mars 2014
 @author: Matthieu
 '''
 
-import socket, sys, threading
+import socket, threading
 
 from .Communication import *
 
@@ -47,32 +47,29 @@ class Server(threading.Thread):
             client.start()
             
             if self.debug is True:
-                print("")
-                print ("%s connecte, adresse IP %s, port %s." %(nom, adresse[0], adresse[1]))
-                print("")
+                print("[Server]: Server        >> %s connecte, adresse IP %s, port %s" %(nom, adresse[0], adresse[1]))
                 
     def connexion(self):
         
         mySocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         
         if self.debug is True:
-            print("")
-            print("lancement du Server")
+            print("[Server]: Server        >> lancement du server")
         
         try:
             mySocket.bind((self.ip, self.port))
             
             if self.debug is True:
-                print ("Serveur en operationnel")
-                print("")
+                print("[Server]: Server        >> Server operationnel")
             
             mySocket.listen(5)
             return mySocket
     
         except socket.error as e:
 
-            print ("echec lors du lancement du Server: " + str(e))
-            print("")
+            if self.debug is True:
+                print("[Server]: Server        >> Erreur de connexion")
+            print(str(e))
             
             return False
         
@@ -86,7 +83,7 @@ class Server(threading.Thread):
         self.connexion.close()
     
         if self.debug is True:
-            print("Shutdown du Server")
+            print("[Server]: Server        >> Shutdown du Server")
             
 if __name__ == '__main__':
     myServer = Server()

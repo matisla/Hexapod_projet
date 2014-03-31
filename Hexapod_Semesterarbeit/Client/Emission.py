@@ -35,10 +35,10 @@ class Emission(threading.Thread):
             for message in self.listMsg:
                 
                 if message.upper() == "END":
-                    end = True
-                    
                     if self.debug is True:
-                        print("Emission: deconnexion en cours ...")                   
+                        print("[Client]: Emission      >> fin de la communication")
+                        
+                    end = True
                     
                     self.connexion.send(message.encode())
                     self.listMsg.remove(message)
@@ -54,7 +54,7 @@ class Emission(threading.Thread):
         
         else:
             if self.debug is True:
-                print("[Attention]: pas de log attribue")
+                print("[Client]: Emission      >> Attention pas de log attribue")
                 
             print(message)
     
@@ -65,7 +65,7 @@ class Emission(threading.Thread):
         self.ui = gui
         
         if self.debug is True: 
-            print("connexion: thread Emission  - interface graphique PRET")
+            print("[Client]: Emission      >> Thread Emission - Interface Graphique PRET")
         
 if __name__ == '__main__':
-    print("lancer le Main")
+    print("lancer le Client SVP")

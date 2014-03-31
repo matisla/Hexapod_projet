@@ -34,17 +34,13 @@ class Reception(threading.Thread):
             message = message.decode()
             
             if message.upper() == "END":
-                
                 if self.debug is True:
-                    print("connexion termine")
-                
+                    print("[Client]: Reception     >> fin de la communication")    
                 break
             
             else:
                 self.logger(message)
         
-        if self.debug is True:
-            print("fin de la connexion")    
         
         self.connexion.close()
     
@@ -56,7 +52,7 @@ class Reception(threading.Thread):
         
         else:
             if self.debug is True:
-                print("[Attention]: pas de log attribue")
+                print("[Client]: Reception     >> Attention pas de log attribue")
             
             print(message)
             
@@ -64,7 +60,7 @@ class Reception(threading.Thread):
         self.ui = gui
         
         if self.debug is True:
-            print("connexion: thread Reception - interface graphique PRET")
+            print("[Client]: Reception     >> Thread Reception - Interface Graphique PRET")
 
 if __name__ == '__main__':
-    print("lancer le Main")
+    print("lancer le Client SVP")

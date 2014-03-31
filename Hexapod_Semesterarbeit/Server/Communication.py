@@ -30,9 +30,7 @@ class Communication(threading.Thread):
     def run(self):
         
         if self.debug is True:
-            print("")
-            print("pret a recevoir les commandes !")
-            print("")
+            print("[Server]: Communication >> pret a recevoir les commandes")
             
         while 1:    
             """
@@ -41,20 +39,50 @@ class Communication(threading.Thread):
             
             message = self.connexion.recv(1024)
             message = message.decode()
+            message = message.upper()
             
-            if message.upper() == "END":
+            reponse = message
+            
+            if self.debug is True:
+                print("[Server]: Communication >> message recu: " + message)
+            
+            if message == "END":
                 self.connexion.send(message.encode())
+                
+                if self.debug is True:
+                    print("[Server]: Communication >> fin de la communication")
                 break
             
-            else:
-                print("recepteur Server message: "+ message)
+            elif message == "FW":
+                reponse = "en Avant !"
             
-                """
-                renvoie de la reponse
-                """
+            elif message == "BW":
+                reponse = "en Arriere !"
+            
+            elif message == "LE":
+                reponse = "a Gauche !"
                 
-                reponse = "message recu"
-                self.connexion.send(reponse.encode())
+            elif message == "RI":
+                reponse = "a Droite !"
+            
+            elif message == "RL":
+                reponse = "Tourner a Gauche !"
+            
+            elif message == "RR":
+                reponse = "Tourner a Droite !"
+                
+            else:
+                if self.debug is True:
+                    print("[Server]: Communication >> Attention commande inconnue")
+                
+                reponse = ("[ERROR]: commande inconnu !")
+            
+                
+            """
+            renvoie de la reponse
+            """
+            
+            self.connexion.send(reponse.encode())
                 
         
 if __name__ == '__main__':

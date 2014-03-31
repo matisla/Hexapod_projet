@@ -6,20 +6,20 @@ Created on 27 mars 2014
 
 from tkinter import *
 
-class Receiver(Frame):
+class Receiver():
     '''
     Gere les entrees dans la GUI
     '''
 
 
-    def __init__(self, win):
-        '''
-        Constructor
-        '''
+    def __init__(self, win, Debug=True):
+        
+        self.debug = Debug
+        
         self.fenetre = win
   
         self.box = Frame(self.fenetre)
-        self.box.pack(side="right", padx=10, pady=10)
+        self.box.pack(side="bottom", expand=True, fill="x", padx=10, pady=10)
         
         self.initLoger()
   
@@ -28,22 +28,22 @@ class Receiver(Frame):
         log des commandes
         """
 
-        self.sendedbox = Frame(self.box, width=100, height=10)
-        self.sendedbox.pack(side="top", fill="both")
+        self.sendedbox = Frame(self.box)
+        self.sendedbox.pack(side="bottom", expand=True, fill="both")
         
         self.scrollbar = Scrollbar(self.sendedbox)
-        self.scrollbar.pack(side="right", fill="y" )
+        self.scrollbar.pack(side="right", fill="y")
 
-        self.sended = Listbox(self.sendedbox, yscrollcommand=self.scrollbar.set, bg="white", width=40)
-        self.sended.pack(side="top")   
+        self.sended = Listbox(self.sendedbox, yscrollcommand=self.scrollbar.set, bg="white", width=60)
+        self.sended.pack(side="bottom", expand=True, fill="both")   
         
     
     def log(self, message):
-        self.sended.insert(0, message)
+        if self.debug is True:
+            print("[GUI]   : receiver      >> message logger: " + message)
         
-    def setUi(self, gui):
-        self.ui = gui
-    
+        self.sended.insert(END, message)
+        
         
 if __name__ == "__main__" :
     fenetre = Tk()
