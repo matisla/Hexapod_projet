@@ -14,9 +14,13 @@ class Emission(threading.Thread):
     
     """
     
-    def __init__(self, conn,  gui=None):
+    def __init__(self, conn,  gui=None, Debug=True):
+        
+        self.debug = Debug
         
         threading.Thread.__init__(self)
+        
+        self.setName("Emission")
         
         self.connexion = conn
         self.ui = gui
@@ -32,8 +36,13 @@ class Emission(threading.Thread):
                 
                 if message.upper() == "END":
                     end = True
-                    self.logger("deconnexion en cours ...")                   
                     
+                    if self.debug is True:
+                        print("Emission: deconnexion en cours ...")                   
+                    
+                    self.connexion.send(message.encode())
+                    self.listMsg.remove(message)
+                    break
 
                 self.connexion.send(message.encode())
                 self.listMsg.remove(message)
@@ -44,6 +53,9 @@ class Emission(threading.Thread):
             self.ui.log(message)
         
         else:
+            if self.debug is True:
+                print("[Attention]: pas de log attribue")
+                
             print(message)
     
     def sendMsg(self, message):
@@ -51,6 +63,9 @@ class Emission(threading.Thread):
     
     def setUi(self, gui):
         self.ui = gui
-
+        
+        if self.debug is True: 
+            print("connexion: thread Emission  - interface graphique PRET")
+        
 if __name__ == '__main__':
     print("lancer le Main")
