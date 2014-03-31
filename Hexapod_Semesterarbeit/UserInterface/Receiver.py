@@ -6,7 +6,6 @@ Created on 27 mars 2014
 
 from tkinter import *
 
-
 class Receiver(Frame):
     '''
     Gere les entrees dans la GUI
@@ -43,8 +42,9 @@ class Receiver(Frame):
         self.sended.insert(0, message)
         
 if __name__ == "__main__" :
-    
     fenetre = Tk()
     fenetre.title("Commande")
-    myLogger = Receiver(fenetre)
+    
+    myReceiver = Receiver(fenetre)
+    myReceiver.mainloop()
 

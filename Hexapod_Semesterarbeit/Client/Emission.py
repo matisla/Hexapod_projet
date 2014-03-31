@@ -14,12 +14,12 @@ class Emission(threading.Thread):
     
     """
     
-    def __init__(self, conn):
+    def __init__(self, conn,  gui=None):
         
         threading.Thread.__init__(self)
         
         self.connexion = conn
-        self.ui = None
+        self.ui = gui
         
         self.listMsg = list("")
         

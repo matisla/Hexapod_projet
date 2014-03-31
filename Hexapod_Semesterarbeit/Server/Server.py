@@ -6,7 +6,7 @@ Created on 26 mars 2014
 
 import socket, sys, threading
 
-from Communication import *
+from .Communication import *
 
 
 class Server(threading.Thread):
@@ -50,8 +50,9 @@ class Server(threading.Thread):
             mySocket.bind((self.ip, self.port))
             print ("Serveur en route")
         
-        except socket.error:
+        except socket.error as e:
             print ("echec lors du lancement du Server")
+            print(e)
             sys.exit()
         
         print("")

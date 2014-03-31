@@ -6,19 +6,17 @@ Created on 26 mars 2014
 
 import socket, sys, threading
 
-from Emission import *
-from Reception import *
-
+from . import Emission, Reception
 
 class Client():
 
 
-    def __init__(self, HOST="168.192.0.32", PORT=50000):
+    def __init__(self, HOST="168.192.0.32", PORT=50000, gui=None):
         
         self.ip   = HOST
         self.port = PORT
         
-        self.ui = None
+        self.ui = gui
        
     def connexion(self):
         
@@ -31,14 +29,15 @@ class Client():
         
         try:
             connexion.connect( (self.ip, self.port) )
-            print ("Connexion reussi")
+            self.logger("Connexion reussi")
         
-        except socket.error:
-            print ("echec de la connexion")
+        except socket.error as e:
+            self.logger("echec de la connexion")
+            self.logger(e)
             sys.exit()
         
-        self.thR = Reception(connexion, self.ui)
-        self.thE = Emission(connexion, self.ui)
+        self.thR = Reception.Reception(connexion, self.ui)
+        self.thE = Emission.Emission(connexion, self.ui)
         
         self.thR.start()
         self.thE.start()

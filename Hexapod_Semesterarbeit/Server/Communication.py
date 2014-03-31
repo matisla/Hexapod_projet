@@ -6,7 +6,7 @@ Created on 25 mars 2014
 
 import socket, sys, threading
 
-import cmdServos
+from .cmdServos import *
 
 
 class Communication(threading.Thread):

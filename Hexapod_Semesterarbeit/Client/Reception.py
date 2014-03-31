@@ -14,13 +14,13 @@ class Reception(threading.Thread):
     
     """
     
-    def __init__(self, conn):
+    def __init__(self, conn,  gui=None):
 
         threading.Thread.__init__(self)
         
         self.connexion = conn
         
-        self.ui = None
+        self.ui = gui
     
     def run(self):
         

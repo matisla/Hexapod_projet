@@ -34,16 +34,16 @@ class Sender(Frame):
         self.fenetrebox.pack(side="top", pady=10)
         
         self.boutton_fw = Button(self.fenetrebox, command=lambda: self.cmd("fw"), text="fw", width=10)
-        self.boutton_fw.pack(side="top")
+        self.boutton_fw.grid(row=0, column=1)
         
         self.boutton_bw = Button(self.fenetrebox, command=lambda: self.cmd("bw"), text="bw", width=10)
-        self.boutton_bw.pack(side="bottom")
+        self.boutton_bw.grid(row=1, column=1)
         
         self.boutton_left = Button(self.fenetrebox, command=lambda: self.cmd("le"), text="left", width=10)
-        self.boutton_left.pack(side="left")
+        self.boutton_left.grid(row=1, column=0)
         
         self.boutton_right = Button(self.fenetrebox, command=lambda: self.cmd("ri"), text="right", width=10)
-        self.boutton_right.pack(side="right")    
+        self.boutton_right.grid(row=1, column=2)
         
         """
         Panneau de controle manuelle Rotation
@@ -52,10 +52,10 @@ class Sender(Frame):
         self.fenetreboxR.pack(side="top", pady=10)
         
         self.boutton_leftR = Button(self.fenetreboxR, command=lambda: self.cmd("rl"), text="Rot. left", width=10)
-        self.boutton_leftR.pack(side="left")
+        self.boutton_leftR.grid(row=0, column=0)
         
         self.boutton_rightR = Button(self.fenetreboxR, command=lambda: self.cmd("rr"), text="Rot. right", width=10)
-        self.boutton_rightR.pack(side="right")
+        self.boutton_rightR.grid(row=0, column=1)
         
         
     def initSender(self):
@@ -88,4 +88,6 @@ if __name__ == "__main__" :
     
     fenetre = Tk()
     fenetre.title("Commande")
+    
     mySender = Sender(fenetre)
+    mySender.mainloop()
