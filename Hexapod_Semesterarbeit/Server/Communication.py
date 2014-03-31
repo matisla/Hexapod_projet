@@ -11,24 +11,29 @@ from .cmdServos import *
 
 class Communication(threading.Thread):
     '''
-    classdocs
+    Thread cote serveur permettant la communication avec UN Client
     '''
 
 
-    def __init__(self, conn):
+    def __init__(self, conn, Debug=True):
         '''
-        Constructor
+        Debug = True permet d'afficher les messages dans la console
         '''
         
         threading.Thread.__init__(self)
         
+        self.debug = Debug
+            
         self.connexion = conn
     
     
     def run(self):
         
-        print("pret a recevoir les commandes !")
-        
+        if self.debug is True:
+            print("")
+            print("pret a recevoir les commandes !")
+            print("")
+            
         while 1:    
             """
             lecteur et traitement du message
@@ -37,10 +42,7 @@ class Communication(threading.Thread):
             message = self.connexion.recv(1024)
             message = message.decode()
             
-            if message.upper() == "Hello":
-                print("BONJOURS A TOUS")
-            
-            elif message.upper() == "END":
+            if message.upper() == "END":
                 self.connexion.send(message.encode())
                 break
             
