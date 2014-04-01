@@ -4,13 +4,17 @@ Created on 26 mars 2014
 @author: Matthieu
 '''
 
-import socket, sys
+import socket
 
 from Emission import Emission
 from Reception import Reception
 
-class Client():
 
+class Client():
+    """
+    classe qui lance la connexion avec un Thread Emission et un Thread Reception
+    peut aussi envoyer des messages grace a la commande sendMsg()
+    """
 
     def __init__(self, HOST="localhost", PORT=50000, gui=None, Debug=True):
         

@@ -39,6 +39,7 @@ class Sender():
         self.ipLabel.grid(row=0, column=0, sticky=E)
         
         self.varIp = StringVar()
+        self.varIp = "localhost"
         self.ipBox = Entry(self.connectbox, textvariable=self.varIp, width=15)
         self.ipBox.grid(row=0, column=1)
         
@@ -46,6 +47,7 @@ class Sender():
         self.portLabel.grid(row=1, column=0, sticky=E)
         
         self.varPort = StringVar()
+        self.varPort = "50000"
         self.portBox = Entry(self.connectbox, textvariable=self.varPort, width=15)
         self.portBox.grid(row=1, column=1)
         
