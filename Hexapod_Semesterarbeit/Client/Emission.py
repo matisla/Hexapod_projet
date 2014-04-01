@@ -4,7 +4,7 @@ Created on 24 mars 2014
 @author: Matthieu
 '''
 
-import socket, sys, threading
+import threading
 
 
 class Emission(threading.Thread):
@@ -34,7 +34,7 @@ class Emission(threading.Thread):
         if self.debug is True:
             print("[Client]: Emission      >> Debut de la communication")
         
-        self.connexion.send("BEGIN".encode())
+        self.sendMsg("BEGIN")
         
         while end == False:
             for message in self.listMsg:
@@ -48,7 +48,10 @@ class Emission(threading.Thread):
                     self.connexion.send(message.encode())
                     self.listMsg.remove(message)
                     break
-
+                
+                if self.debug is True:
+                    print("[Client]: Emission      >> envoie du message: " + message)
+                    
                 self.connexion.send(message.encode())
                 self.listMsg.remove(message)
                     

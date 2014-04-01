@@ -4,9 +4,10 @@ Created on 26 mars 2014
 @author: Matthieu
 '''
 
-import socket, sys, threading
+import socket, sys
 
-from . import Emission, Reception
+from Emission import Emission
+from Reception import Reception
 
 class Client():
 
@@ -18,10 +19,15 @@ class Client():
         self.ip   = HOST
         self.port = PORT
         
-        self.ui = gui
+        self.ui  = gui
+        self.thE = None
+        self.thR = None
        
     def connexion(self):
-
+        """
+        lance la connexion du client
+        return True or False suivant la reussite ou l'echec
+        """
         connexion = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         
         if self.debug is True:
@@ -33,8 +39,8 @@ class Client():
             if self.debug is True:
                 print("[Client]: Client        >> connexion au Server reussi")
             
-            self.thR = Reception.Reception(connexion, self.ui, Debug=self.debug)
-            self.thE = Emission.Emission(connexion, self.ui, Debug=self.debug)
+            self.thR = Reception(connexion, self.ui, Debug=self.debug)
+            self.thE = Emission(connexion, self.ui, Debug=self.debug)
         
             self.thR.start()
             self.thE.start()
@@ -45,7 +51,7 @@ class Client():
             
             if self.debug is True:
                 print("[Client]: Client        >> [ERROR] connexion impossible")
-            self.logger("                           " + str(e))
+            self.logger(str(e))
             
             return False
         
@@ -64,9 +70,15 @@ class Client():
         return (self.thE, self.thR)
     
     def setUi(self, gui):
-        self.thE.setUi(gui)
-        self.thR.setUi(gui)
-    
+        self.ui = gui
+        
+        if self.thE is not None:
+            self.thE.setUi(gui)
+        
+        if self.thR is not None:
+            self.thR.setUi(gui)
+        
+        
     def logger(self, message):
         if self.ui is not None:
             self.ui.log(message)
@@ -75,8 +87,8 @@ class Client():
             if self.debug is True:
                 print("[Client]: Client        >> [Attention] pas de log attribue")
                 
-            print(message)
+            print("                           " + message)
     
 if __name__ == '__main__':
-    myClient = Client()
-    sys.exit()
+    myClient = Client(Debug=True)
+    myClient.connexion()

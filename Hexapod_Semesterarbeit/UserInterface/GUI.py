@@ -12,14 +12,16 @@ Option:
 import threading
 from tkinter import *
 
-from UserInterface import Sender, Receiver
+from Sender import Sender
+from Receiver import Receiver
 
 
 class GUI(threading.Thread):
     
-    def __init__(self, Debug=True):
+    def __init__(self, Debug=False):
         
         self.debug = Debug
+        
         
         threading.Thread.__init__(self)
         self.setName("GUI")
@@ -31,12 +33,12 @@ class GUI(threading.Thread):
         self.senderbox = Frame(self.fenetre)
         self.senderbox.pack(side="left",  expand=False, padx=5, pady=5)
         
-        self.sender = Sender.Sender(self.senderbox, Debug=self.debug)
+        self.sender = Sender(self, self.senderbox, Debug=self.debug)
         
         self.receiverbox = Frame(self.fenetre)
         self.receiverbox.pack(side="right", expand=True, fill="x", padx=5, pady=5)
         
-        self.receiver = Receiver.Receiver(self.receiverbox, Debug=self.debug)
+        self.receiver = Receiver(self.receiverbox, Debug=self.debug)
         
         self.start()
         
@@ -68,5 +70,5 @@ class GUI(threading.Thread):
             
             
 if __name__ == '__main__':
-    test = GUI()
+    test = GUI(Debug=True)
     

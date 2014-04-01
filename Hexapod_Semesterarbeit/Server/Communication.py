@@ -4,9 +4,7 @@ Created on 25 mars 2014
 @author: Matthieu
 '''
 
-import socket, sys, threading
-
-from .cmdServos import *
+import threading
 
 
 class Communication(threading.Thread):
@@ -33,7 +31,15 @@ class Communication(threading.Thread):
             print("[Server]: Communication >> pret a recevoir les commandes")
         
         while 1:
-            message = self.connexion.recv(1024)
+            try:
+                message = self.connexion.recv(1024)
+          
+            except ConnectionResetError as e:
+                if self.debug is True:
+                    print("[Server]: Communication >> [ERROR] Connexion rompu de maniere brutal")
+                    print("                           "+ str(e))
+                break
+            
             message = message.decode()
             message = message.upper()
             
@@ -42,15 +48,21 @@ class Communication(threading.Thread):
                     
                 if self.debug is True:
                     print("[Server]: Communication >> Debut de la communication")
-                    
                 break   
         
         while 1:    
             """
             lecteur des commandes
             """
+            try:
+                message = self.connexion.recv(1024)
+          
+            except ConnectionResetError as e:
+                if self.debug is True:
+                    print("[Server]: Communication >> [ERROR] Connexion rompu de maniere brutal")
+                    print("                           "+ str(e))
+                break
             
-            message = self.connexion.recv(1024)
             message = message.decode()
             message = message.upper()
             

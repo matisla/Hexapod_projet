@@ -4,7 +4,7 @@ Created on 24 mars 2014
 @author: Matthieu
 '''
 
-import socket, sys, threading
+import threading
 
 
 class Reception(threading.Thread):
@@ -30,10 +30,13 @@ class Reception(threading.Thread):
         
         while 1:
             # cycle normal
+            try:
+                message = self.connexion.recv(1024)
+                message = message.decode()
             
-            message = self.connexion.recv(1024)
-            message = message.decode()
-            
+            except:
+                print("erreur lors de la lecture de la reponse")
+                
             if self.debug is True:
                 print("[Client]: Reception     >> message recu: " + message)
                     

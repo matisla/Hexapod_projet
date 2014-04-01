@@ -6,13 +6,12 @@ Created on 26 mars 2014
 
 import socket, threading
 
-from .Communication import *
-
+from Communication import Communication
 
 class Server(threading.Thread):
 
 
-    def __init__(self, HOST="localhost", PORT=50000, Debug=True):
+    def __init__(self, HOST="localhost", PORT=50000, Debug=False):
         
         self.debug = Debug
         self.actif = True
@@ -28,13 +27,17 @@ class Server(threading.Thread):
         
         self.conn = self.connexion()
         
-        if self.conn != False:
+        if self.conn is not False:
             self.start()
 
        
     def run(self):
          
-        while self.actif is True:
+        if self.debug is True:
+            print("[Server]: Server        >> en attente de connexion ...")
+            
+            
+        while self.actif is True:    
                   
             connexion, adresse = self.conn.accept()
             
@@ -70,8 +73,10 @@ class Server(threading.Thread):
 
             if self.debug is True:
                 print("[Server]: Server        >> [ERROR] connexion impossible")
-            print("                           " + str(e))
-            
+                print("                           " + str(e))
+            else:
+                print(str(e))
+                
             return False
         
         
@@ -87,4 +92,4 @@ class Server(threading.Thread):
         self.actif = False
             
 if __name__ == '__main__':
-    myServer = Server()
+    myServer = Server(Debug=True)

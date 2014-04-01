@@ -4,7 +4,7 @@ Created on 27 mars 2014
 @author: Matthieu
 '''
 from tkinter import *
-
+from Client import Client
 
 class Sender():
     '''
@@ -12,18 +12,48 @@ class Sender():
     '''
 
 
-    def __init__(self, win, Debug=True):
+    def __init__(self, GUI, win, emetteur=None, Debug=True):
         
         self.debug = Debug
+        self.gui = GUI
         
         self.fenetre  = win
-        self.emetteur = None
+        self.emetteur = emetteur
         
         self.box = Frame(self.fenetre)
         self.box.pack(side="left", expand=True, fill="both", padx=10, pady=10)
         
+        self.initConnexion()
         self.initControler()
         self.initSender()
+        
+    def initConnexion(self):
+        """
+        parametre de la connexion
+        """
+        
+        self.connectbox = Frame(self.box)
+        self.connectbox.pack(side="top")
+
+        self.ipLabel = Label(self.connectbox, text="Adresse IP:")
+        self.ipLabel.grid(row=0, column=0, sticky=E)
+        
+        self.varIp = StringVar()
+        self.ipBox = Entry(self.connectbox, textvariable=self.varIp, width=15)
+        self.ipBox.grid(row=0, column=1)
+        
+        self.portLabel = Label(self.connectbox, text="Port:")
+        self.portLabel.grid(row=1, column=0, sticky=E)
+        
+        self.varPort = StringVar()
+        self.portBox = Entry(self.connectbox, textvariable=self.varPort, width=15)
+        self.portBox.grid(row=1, column=1)
+        
+        self.buttonConnect = Button(self.connectbox, command=lambda: self.connect(), text="Connection", width=15)
+        self.buttonConnect.grid(row=0, column=2, padx=10)
+        
+        self.buttonDisconnect = Button(self.connectbox, command=lambda: self.disconnect(), text="Deconnection", width=15)
+        self.buttonDisconnect.grid(row=1, column=2, padx=10)
         
         
     def initControler(self):
@@ -74,6 +104,7 @@ class Sender():
         self.boutton_send.pack(side="right")
 
 
+
     def cmd(self, cmd):
         if self.emetteur is not None:
             if self.debug is True:
@@ -93,6 +124,41 @@ class Sender():
         
         if self.debug is True:
             print("[GUI]   : Sender        >> connexion UI Emission - Thread Emetteur PRET")
+            
+    def connect(self):
+        
+        if self.debug is True:
+            print("[GUI]   : Sender        >> connexion avec le Serveur en cours ...")
+        
+        self.gui.log("connexion avec le Serveur en cours ...")
+        
+        ip   = self.varIp.get()
+        try:
+            port = int(self.varPort.get())
+        except:
+            self.gui.log("[ERROR] port incorrect")
+            port = None
+            
+        if port is not None:
+            self.emetteur = Client(ip, port)
+            self.emetteur.setUi(self.gui)
+        
+            if self.emetteur.connexion() is True:
+                if self.debug is True:
+                    print("[GUI]   : Sender        >> connexion avec le Serveur reussi")
+                self.gui.log("connexion avec le Serveur reussi")
+                
+            else:
+                self.gui.log("[ERROR] connexion echoue")
+                if self.debug is True:
+                    print("[GUI]   : Sender        >> [ERROR] connexion avec le Serveur a echoue")
+             
+        
+    def disconnect(self):
+        self.emetteur.sendMsg("END")
+        
+        if self.debug is True:
+            print("[GUI]   : Sender        >> deconnexion du Serveur en cours")
         
 if __name__ == "__main__" :
     
