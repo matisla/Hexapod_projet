@@ -16,26 +16,55 @@ class cmdServos(object):
 
     def __init__(self, Debug=False):
         
-        self.board = I2CBoard()
+        self.debug  = Debug
+        self.boardG = I2CBoard(adresse=0x0)
+        self.boardD = I2CBoard(adresse=0x0)
         
-    def forward(self):
-        print("avancer")
+    def cmd(self, message):
+        
+        if self.debug is True:
+            print("[I2C]: cmdServos        >> commande recu: " + message)
+               
+        if message == "DECONNEXION":
+            print("deconnexion de la communication I2C")
+            
+        elif message == "FW":
+            
+            print("avancer")   
+            reponse = True   
+        
+        elif message == "BW":
+            
+            print("reculer")
+            reponse = True
+            
+        elif message == "LE":
+            
+            print("Gauche")
+            reponse = True
+            
+        elif message == "RI":
+            
+            print("Droite")
+            reponse = True
+            
+        elif message == "RL":
+            
+            print("Rotation Gauche")
+            reponse = True
+            
+        elif message == "RR":
+            
+            print("Rotation Droite")
+            reponse = True
+            
+        else:
+            print("[ERROR] commande inconnu !")
+            reponse = False
+            
+        return reponse
     
-    def backward(self):
-        print("reculer")
-        
-    def left(self):
-        print("aller a gauche")
-        
-    def right(self):
-        print("aller a droite")
-        
-    def Rleft(self):
-        print("tourner a gauche")
-        
-    def Rright(self):
-        print("tourner a droite")    
-        
+    
     def servos(self, numero, valeur):
         """
         controle manuelle du servos XYZ

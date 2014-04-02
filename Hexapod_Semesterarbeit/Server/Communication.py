@@ -6,6 +6,8 @@ Created on 25 mars 2014
 
 import threading
 
+from I2C import cmdServos
+
 
 class Communication(threading.Thread):
     '''
@@ -21,8 +23,9 @@ class Communication(threading.Thread):
         threading.Thread.__init__(self)
         
         self.debug = Debug
-            
-        self.connexion = conn
+        
+        self.interpreter = cmdServos() 
+        self.connexion   = conn
     
     
     def run(self):
@@ -38,6 +41,10 @@ class Communication(threading.Thread):
                 if self.debug is True:
                     print("[Server]: Communication >> [ERROR] Connexion rompu de maniere brutal")
                     print("                           "+ str(e))
+                
+                else:
+                    print(str(e))
+                    
                 break
             
             message = message.decode()
@@ -50,7 +57,8 @@ class Communication(threading.Thread):
                     print("[Server]: Communication >> Debut de la communication")
                 break   
         
-        while 1:    
+        while 1:  
+              
             """
             lecteur des commandes
             """
@@ -80,43 +88,30 @@ class Communication(threading.Thread):
                 
                 if self.debug is True:
                     print("[Server]: Communication >> fin de la communication")
+                
+                self.interpreter.cmd("DECONNEXION")
+                
                 break
             
-                    
-            elif message == "FW":
-                reponse = "en Avant !"
-            
-            elif message == "BW":
-                reponse = "en Arriere !"
-            
-            elif message == "LE":
-                reponse = "a Gauche !"
-                
-            elif message == "RI":
-                reponse = "a Droite !"
-            
-            elif message == "RL":
-                reponse = "Tourner a Gauche !"
-            
-            elif message == "RR":
-                reponse = "Tourner a Droite !"
-                
             else:
+                
                 if self.debug is True:
-                    print("[Server]: Communication >> [ERROR] commande inconnue")
+                    print("[Server]: Communication >> commande envoye: " + message)
                 
-                reponse = ("[ERROR]: commande inconnu !")
+                resultat = self.interpreter.cmd(message)
+                
+                if resultat is True:
+                    reponse = "commande execute avec succes"
+                    if self.debug is True:
+                        print("[Server]: Communication >> commande execute avec succes")
+                else:
+                    reponse = "[ERROR] commande inconnue"
+                    if self.debug is True:
+                        print("[Server]: Communication >> [ERROR] commande inconnue")
             
                 
-            """
-            renvoie de la reponse
-            """
-            
-            if self.debug is True:
-                print("[Server]: Communication >> message rendu: " + reponse)
-                
-            self.connexion.send(reponse.encode())
-                
+                self.connexion.send(reponse.encode())
+                    
         
 if __name__ == '__main__':
     print("lancer le serveur SVP")
