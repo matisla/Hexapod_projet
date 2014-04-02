@@ -9,9 +9,16 @@ import socket, threading
 from Communication import Communication
 
 class Server(threading.Thread):
+    '''
+    classe permettant de generer un serveur
+    '''
 
 
     def __init__(self, HOST="localhost", PORT=50000, Debug=False):
+        '''
+        Host, port: donner l'ip et le port pour la connexion du serveur
+        Debug: affiche les messages de debugging dans la console
+        '''
         
         self.debug = Debug
         self.actif = True
