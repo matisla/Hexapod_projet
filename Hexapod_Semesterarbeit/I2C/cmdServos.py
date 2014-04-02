@@ -4,6 +4,8 @@ Created on 19 mars 2014
 @author: Matthieu
 '''
 
+from I2CBoard import I2CBoard
+
 class cmdServos(object):
     '''
     les differentes commandes permettants de faire bouger les servos.
@@ -12,20 +14,9 @@ class cmdServos(object):
     '''
 
 
-    def __init__(self, nom, adresse):
-        '''
-        Constructor
-        adresse: adresse du controlleur en I2C
-        '''
-        self.addr = adresse
-        self.name = nom
-        self.getaddr
+    def __init__(self, Debug=False):
         
-    def getaddr(self):
-        print("Caracteristique du Controlleur:")
-        print("nom:     %s"   %(self.name))
-        print("adresse: 0x%X" %(self.addr))
-        
+        self.board = I2CBoard()
         
     def forward(self):
         print("avancer")
