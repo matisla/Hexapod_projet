@@ -3,7 +3,7 @@ Created on 1 avr. 2014
 
 @author: Matthieu
 '''
-from smbus import *
+#from smbus import *
 
 class I2CBoard():
     '''
@@ -16,7 +16,7 @@ class I2CBoard():
         adresse: adresse du controlleur en I2C
         '''
         
-        self.bus  = smbus.SMBus(1)
+#        self.bus  = smbus.SMBus(1)
         
         self.addrGauche = None
         self.addrDroite = None

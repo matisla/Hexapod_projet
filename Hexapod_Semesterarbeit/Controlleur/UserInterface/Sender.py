@@ -23,6 +23,10 @@ class Sender():
         self.box = Frame(self.fenetre)
         self.box.pack(side="left", expand=True, fill="both", padx=10, pady=10)
         
+        self.varIp   = None
+        self.varPort = None
+        self.varSend = None
+        
         self.initConnexion()
         self.initControler()
         self.initSender()

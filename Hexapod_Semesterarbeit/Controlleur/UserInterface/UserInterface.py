@@ -12,11 +12,10 @@ Option:
 import threading
 from tkinter import *
 
-from Sender import Sender
-from Receiver import Receiver
+from UserInterface import Sender, Receiver
+#from UserInterface import Receiver
 
-
-class GUI(threading.Thread):
+class UserInterface(threading.Thread):
     
     def __init__(self, Debug=False):
         
@@ -70,5 +69,5 @@ class GUI(threading.Thread):
             
             
 if __name__ == '__main__':
-    test = GUI(Debug=True)
+    test = UserInterface(Debug=True)
     
