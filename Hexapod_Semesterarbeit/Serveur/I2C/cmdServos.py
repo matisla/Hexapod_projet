@@ -4,7 +4,7 @@ Created on 19 mars 2014
 @author: Matthieu
 '''
 
-from I2C import I2CBoard
+from I2CBoard import I2CBoard
 
 class cmdServos(object):
     '''

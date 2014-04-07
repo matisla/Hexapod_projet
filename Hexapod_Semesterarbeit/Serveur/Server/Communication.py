@@ -6,7 +6,7 @@ Created on 25 mars 2014
 
 import threading
 
-from I2C import cmdServos
+from I2C.cmdServos import cmdServos
 
 
 class Communication(threading.Thread):

@@ -11,7 +11,7 @@ Created on 27 mars 2014
 '''
 
 from Server import Server
-from UserInterface import GUI
+from UserInterface import UserInterface
 
 
 """
@@ -25,5 +25,5 @@ server = Server("localhost", 50000, Debug=True)
 Interface graphique
 """
 
-myInterface = GUI(Debug=True)
+myInterface = UserInterface(Debug=True)
 

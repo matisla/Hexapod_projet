@@ -6,7 +6,7 @@ Created on 26 mars 2014
 
 import socket, threading
 
-from Server import Communication
+from Communication import Communication
 
 class Server(threading.Thread):
     '''
