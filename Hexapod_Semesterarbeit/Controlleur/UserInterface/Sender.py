@@ -4,7 +4,7 @@ Created on 27 mars 2014
 @author: Matthieu
 '''
 from tkinter import *
-from Client import Client
+from Client.Client import Client
 
 class Sender():
     '''
@@ -18,7 +18,7 @@ class Sender():
         self.gui = GUI
         
         self.fenetre  = win
-        self.emetteur = emetteur
+        self.client = emetteur
         
         self.box = Frame(self.fenetre)
         self.box.pack(side="left", expand=True, fill="both", padx=10, pady=10)
@@ -43,7 +43,6 @@ class Sender():
         self.ipLabel.grid(row=0, column=0, sticky=E)
         
         self.varIp = StringVar()
-        self.varIp = "localhost"
         self.ipBox = Entry(self.connectbox, textvariable=self.varIp, width=15)
         self.ipBox.grid(row=0, column=1)
         
@@ -51,7 +50,6 @@ class Sender():
         self.portLabel.grid(row=1, column=0, sticky=E)
         
         self.varPort = StringVar()
-        self.varPort = "50000"
         self.portBox = Entry(self.connectbox, textvariable=self.varPort, width=15)
         self.portBox.grid(row=1, column=1)
         
@@ -112,11 +110,11 @@ class Sender():
 
 
     def cmd(self, cmd):
-        if self.emetteur is not None:
+        if self.client is not None:
             if self.debug is True:
                 print("[GUI]   : Sender        >> commande envoye: " + cmd)
             
-            self.emetteur.sendMsg(cmd)
+            self.client.sendMsg(cmd)
                 
         else:
             print(cmd)
@@ -126,7 +124,7 @@ class Sender():
         self.varSend.initialize("")
         
     def setConnexion(self, conn):
-        self.emetteur = conn
+        self.client = conn
         
         if self.debug is True:
             print("[GUI]   : Sender        >> connexion UI Emission - Thread Emetteur PRET")
@@ -136,32 +134,24 @@ class Sender():
         if self.debug is True:
             print("[GUI]   : Sender        >> connexion avec le Serveur en cours ...")
         
-        self.gui.log("connexion avec le Serveur en cours ...")
+        self.gui.log("Sender", "connexion avec le Serveur en cours ...")
         
         ip   = self.varIp.get()
         try:
             port = int(self.varPort.get())
         except:
-            self.gui.log("[ERROR] port incorrect")
+            self.gui.log("Sender", "[ERROR] port incorrect")
             port = None
             
         if port is not None:
-            self.emetteur = Client(ip, port)
-            self.emetteur.setUi(self.gui)
+            self.client = Client(ip, port)
+            self.client.setUi(self.gui)
         
-            if self.emetteur.connexion() is True:
-                if self.debug is True:
-                    print("[GUI]   : Sender        >> connexion avec le Serveur reussi")
-                self.gui.log("connexion avec le Serveur reussi")
-                
-            else:
-                self.gui.log("[ERROR] connexion echoue")
-                if self.debug is True:
-                    print("[GUI]   : Sender        >> [ERROR] connexion avec le Serveur a echoue")
+        self.client.connexion()
              
         
     def disconnect(self):
-        self.emetteur.sendMsg("END")
+        self.client.sendMsg("END")
         
         if self.debug is True:
             print("[GUI]   : Sender        >> deconnexion du Serveur en cours")

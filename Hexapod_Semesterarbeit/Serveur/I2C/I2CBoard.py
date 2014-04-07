@@ -16,18 +16,20 @@ class I2CBoard():
         adresse: adresse du controlleur en I2C
         '''
         
+        self.debug = Debug
 #        self.bus  = smbus.SMBus(1)
         
-        self.addrGauche = None
-        self.addrDroite = None
+        self.addr = None
         
+        if self.debug is True:
+            print("[I2C]:    I2CBoard      >> pret a transmettre les commandes")
         
         
     def scannBoard(self):
         
         if self.debug is True:
             for adresse in self.addr:
-                print("[Server]: I2CBoard      >>Board a l'adresse 0x%02X" %(adresse))
+                print("[I2C]:    I2CBoard      >>Board a l'adresse 0x%02X" %(adresse))
     
     def read(self):
         """
@@ -37,12 +39,16 @@ class I2CBoard():
             
         tmp = bus.read_word_data(address , 0 )
         """
+    
+    def bonjours(self):
+        print("bonjours de I2CBoard")
+        
         
 if __name__ == '__main__':
     addr = 0
     
     try:
         bus = I2CBoard(adresse=addr)
-        print("[Server]: I2CBoard      >> Connexion a l'adresse 0x%02X reussi" % (addr))
+        print("[I2C]:    I2CBoard      >> Connexion a l'adresse 0x%02X reussi" % (addr))
     except:
-        print("[Server]: I2CBoard      >> Connexion a l'adresse 0x%02X a echoue" % (addr))
+        print("[I2C]:    I2CBoard      >> Connexion a l'adresse 0x%02X a echoue" % (addr))

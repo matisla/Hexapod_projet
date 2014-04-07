@@ -67,10 +67,12 @@ class UserInterface(threading.Thread):
     def setConnexion(self, conn):
         self.sender.setConnexion(conn)
     
-    def log(self, message):
+    def log(self, provenance, message):
+        
+        provenance = provenance+"/GUI"
         
         try:
-            self.receiver.log(message)
+            self.receiver.log(provenance, message)
         
         except:
             if self.debug is True:

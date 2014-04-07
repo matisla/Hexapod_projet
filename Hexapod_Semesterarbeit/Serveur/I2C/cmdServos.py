@@ -17,15 +17,21 @@ class cmdServos(object):
     def __init__(self, Debug=False):
         
         self.debug  = Debug
-        self.boardG = I2CBoard(adresse=0x0)
-        self.boardD = I2CBoard(adresse=0x0)
+        self.boardG = I2CBoard(Debug=self.debug)
+        self.boardD = I2CBoard(Debug=self.debug)
+        
+        if Debug is True:
+            print("[I2C]:    cmdServos     >> pret a transmettre les commandes")
         
     def cmd(self, message):
         
         if self.debug is True:
-            print("[I2C]: cmdServos        >> commande recu: " + message)
+            print("[I2C]:    cmdServos     >> commande recu:      " + message)
                
         if message == "DECONNEXION":
+            reponse = None
+            self.boardD = None
+            self.boardG = None
             print("deconnexion de la communication I2C")
             
         elif message == "FW":
@@ -61,11 +67,19 @@ class cmdServos(object):
         else:
             print("[ERROR] commande inconnu !")
             reponse = False
-            
-        return reponse
+        
+        if self.debug is True:
+            print("[I2C]:    cmdServos     >> reponse transmise:  " + str(reponse))
+        
+        if reponse is not None:
+            return reponse
     
     
     def servos(self, numero, valeur):
+        
+        if self.debug is True:
+            print("[I2C]:    cmdServos     >> deplacement Servos %s de %s" %(numero, valeur))
+            
         """
         controle manuelle du servos XYZ
         
@@ -73,8 +87,7 @@ class cmdServos(object):
         Y: nummero de la patte (1 etant l'avant)
         Z: nummero du servo (1 etant l'interieur)
         """
-            
-                    
+        
 if __name__ == '__main__':
     test = cmdServos("gauche", 0x10)
     test.getaddr()

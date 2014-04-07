@@ -32,7 +32,7 @@ class Emission(threading.Thread):
         end = False
         
         if self.debug is True:
-            print("[Client]: Emission      >> Debut de la communication")
+            print("[Client]: Emission      >> Debut de l'Emission")
         
         self.sendMsg("BEGIN")
         
@@ -41,7 +41,7 @@ class Emission(threading.Thread):
                 
                 if message.upper() == "END":
                     if self.debug is True:
-                        print("[Client]: Emission      >> fin de la communication")
+                        print("[Client]: Emission      >> fin de l'Emission")
                         
                     end = True
                     
@@ -50,7 +50,7 @@ class Emission(threading.Thread):
                     break
                 
                 if self.debug is True:
-                    print("[Client]: Emission      >> envoie du message: " + message)
+                    print("[Client]: Emission      >> commande transmise: " + message)
                     
                 self.connexion.send(message.encode())
                 self.listMsg.remove(message)
@@ -58,7 +58,7 @@ class Emission(threading.Thread):
     
     def logger(self, message):
         if self.ui is not None:
-            self.ui.log(message)
+            self.ui.log("Emission", message)
         
         else:
             if self.debug is True:

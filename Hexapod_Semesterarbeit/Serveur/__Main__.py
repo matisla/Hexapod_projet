@@ -18,6 +18,6 @@ if projet_dir not in sys.path:
     sys.path.append(projet_dir)
 """
 
-from Server import Server
-    
+from Server.Server import Server
+
 myServer = Server(Debug=True)

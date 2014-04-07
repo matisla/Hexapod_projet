@@ -50,16 +50,18 @@ class Server(threading.Thread):
             
             nom = "Client%s" %(len(self.Client))
             
-            client = Communication(connexion, Debug=self.debug)
+            if self.debug is True:
+                print("[Server]: Server        >> %s connecte, adresse IP %s, port %s" %(nom, adresse[0], adresse[1]))
+            
+            client = Communication(self, connexion, Debug=self.debug)
             client.setName(nom)
             
             self.Client[nom] = connexion
             
             client.start()
             
-            if self.debug is True:
-                print("[Server]: Server        >> %s connecte, adresse IP %s, port %s" %(nom, adresse[0], adresse[1]))
-                
+            
+            
     def connexion(self):
         
         mySocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -91,6 +93,8 @@ class Server(threading.Thread):
         liste = list(self.Client)
         return liste
     
+    def delClient(self, nom):
+        del self.Client[nom]
     
     def shutdown(self):
         if self.debug is True:

@@ -46,21 +46,22 @@ class Client():
         connexion = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         
         if self.debug is True:
-            print("[Client]: Client        >> connexion au Server en cours")
+            print("[Client]: Client        >> connexion avec le Serveur en cours ...")
         
         try:
             connexion.connect( (self.ip, self.port) )
             
             if self.debug is True:
-                print("[Client]: Client        >> connexion au Server reussi")
+                print("[Client]: Client        >> connexion avec le Serveur reussi")
             
             self.thR = Reception(connexion, self.ui, Debug=self.debug)
             self.thE = Emission(connexion, self.ui, Debug=self.debug)
         
             self.thR.start()
             self.thE.start()
-        
+            
             return True
+            
         
         except socket.error as e:
             
@@ -96,7 +97,7 @@ class Client():
         
     def logger(self, message):
         if self.ui is not None:
-            self.ui.log(message)
+            self.ui.log("Client", message)
         
         else:
             if self.debug is True:

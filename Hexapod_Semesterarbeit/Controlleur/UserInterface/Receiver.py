@@ -40,9 +40,9 @@ class Receiver():
         self.sended.pack(side="bottom", expand=True, fill="both")   
         
     
-    def log(self, message):
+    def log(self, provenance, message):
         if self.debug is True:
-            print("[GUI]   : receiver      >> message logger: " + message)
+            print("[GUI]   : Receiver      >> message logger: de %s, %s" %(provenance, message))
         
         self.sended.insert(END, message)
         

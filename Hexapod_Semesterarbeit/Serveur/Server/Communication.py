@@ -15,23 +15,23 @@ class Communication(threading.Thread):
     '''
 
 
-    def __init__(self, conn, Debug=True):
+    def __init__(self, serv, conn, Debug=True):
         '''
         Debug = True permet d'afficher les messages dans la console
         '''
         
         threading.Thread.__init__(self)
         
+        self.server = serv
         self.debug = Debug
         
-        self.interpreter = cmdServos() 
+        self.interpreter = cmdServos(Debug=self.debug) 
         self.connexion   = conn
-    
-    
+        
     def run(self):
         
         if self.debug is True:
-            print("[Server]: Communication >> pret a recevoir les commandes")
+            print("[Server]: Communication >> pret a transmettre les commandes")
         
         while 1:
             try:
@@ -55,7 +55,7 @@ class Communication(threading.Thread):
                     
                 if self.debug is True:
                     print("[Server]: Communication >> Debut de la communication")
-                break   
+                break
         
         while 1:  
               
@@ -77,7 +77,7 @@ class Communication(threading.Thread):
             reponse = message
             
             if self.debug is True:
-                print("[Server]: Communication >> message recu: " + message)
+                print("[Server]: Communication >> commande recu:      " + message)
             
             """
             traitement des commandes
@@ -90,25 +90,26 @@ class Communication(threading.Thread):
                     print("[Server]: Communication >> fin de la communication")
                 
                 self.interpreter.cmd("DECONNEXION")
+                self.interpreter = None
                 
+                self.server.delClient(self.getName())
                 break
             
             else:
                 
                 if self.debug is True:
-                    print("[Server]: Communication >> commande envoye: " + message)
+                    print("[Server]: Communication >> commande transmise: " + message)
                 
                 resultat = self.interpreter.cmd(message)
                 
                 if resultat is True:
                     reponse = "commande execute avec succes"
-                    if self.debug is True:
-                        print("[Server]: Communication >> commande execute avec succes")
+                    
                 else:
                     reponse = "[ERROR] commande inconnue"
-                    if self.debug is True:
-                        print("[Server]: Communication >> [ERROR] commande inconnue")
-            
+                
+                if self.debug is True:
+                    print("[Server]: Communication >> reponse envoyee:    " + reponse)
                 
                 self.connexion.send(reponse.encode())
                     

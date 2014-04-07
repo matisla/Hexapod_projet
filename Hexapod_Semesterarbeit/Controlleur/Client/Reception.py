@@ -34,21 +34,24 @@ class Reception(threading.Thread):
                 message = self.connexion.recv(1024)
                 message = message.decode()
             
-            except:
+            except ConnectionResetError as e:
+                print()
                 print("erreur lors de la lecture de la reponse")
-                
+                print(str(e))
+                break
+            
             if self.debug is True:
                 print("[Client]: Reception     >> message recu: " + message)
                     
             if message.upper() == "END":
                 if self.debug is True:
-                    print("[Client]: Reception     >> fin de la communication")    
+                    print("[Client]: Reception     >> fin de la Reception")    
                 break
             
             elif message.upper() == "BEGIN":
                 if self.debug is True:
-                    print("[Client]: Reception     >> Debut de la communication")    
-                self.logger("Debut de la communication avec le Server")
+                    print("[Client]: Reception     >> Debut de la Reception")    
+                self.logger("connexion avec le Serveur reussi")
                 
             else:
                 self.logger(message)
@@ -65,7 +68,7 @@ class Reception(threading.Thread):
         
         if self.ui is not None:
             for msg in self.message:
-                self.ui.log(msg)
+                self.ui.log("Reception", msg)
                 self.message.remove(msg)
             
         else:
